@@ -34,4 +34,12 @@ How to do this is entirely dependent on your router (and out of scope of these d
 
 ## Enable Specific Applications
 
-Every application has a `<application_name>_available_externally` setting in the Advanced Settings section of `all.yml`. Setting this to `true` will configure Traefik to route `<application>.yourdomain.com` to the application, making it available externally.
+Every application has a `<application_name>_available_externally` setting in the Advanced Settings section of `all.yml`. Setting this to `true` will configure Traefik to route `<application>.yourdomain.com` to the application, making it available externally. There is also an option to set `<application>_subdomain` in the Advanced Settings sections. This will change the default subdomain name for external access to a name that you wish to use. Also Traefik will request a certificate that includes each subdomain of the activated services that is used. Note the section below for potential issues with this approach.
+
+As Traefik will only request new certificates when being restarted, you also need to restart the container after changing any subdomain or making an additional application available externally to request new certificates. Note it may take a few minutes until you receive a trusted certificate as all subdomains need to be verified before.
+
+## Custom subdomains
+
+If you are going to edit the subdomain variables you need to be aware of some potential limitations. Letsencrypt will only allow a total of 50 certificate requests to be issued in a rolling 7 day period per DNS. It is highly recommended that if you wish to edit the subdomains for your installed services or add additional services to be available externally you do so either in a single batch before running the playbook again or before running the playbook for the first time. If you edit too many subdomains and run the playbook between each edit, you will hit the letsencrypt rate limiter and be unable to use SSL for up to a week. If you would still like to test your changes without hitting the limitations of the Letsencrypt API, you may set `traefik_acme_staging` to true, this will change the production server of LetsEncrypt to the staging server. Note that the certificate you will receive is NOT contained in the browsers certificate chain, so the https connection will be marked as potentially insecure.
+
+Visit [https://letsencrypt.org/docs/rate-limits/](https://letsencrypt.org/docs/rate-limits/) to learn more about the rate limits for requesting Letsencrypt certificates
