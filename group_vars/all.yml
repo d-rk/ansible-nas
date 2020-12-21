@@ -971,3 +971,11 @@ photoprism_password: "secret"
 photoprism_settings_hidden: "false"
 photoprism_public: "false"
 photoprism_port: 2342
+
+##
+## gotify
+##
+gotify_docker_image: gotify:latest
+gotify_available_externally: "false"
+gotify_subdomain: "gotify"
+gotify_port: 2346

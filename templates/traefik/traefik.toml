@@ -192,6 +192,7 @@ acmeLogging = true
 {% if gitea_available_externally == "true" %}"{{ gitea_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if gitlab_available_externally == "true" %}"{{ gitlab_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if glances_available_externally == "true" %}"{{ glances_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
+{% if gotify_available_externally == "true" %}"{{ gotify_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if grafana_available_externally == "true" %}"{{ grafana_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if guacamole_available_externally == "true" %}"{{ guacamole_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if heimdall_available_externally == "true" %}"{{ heimdall_subdomain }}.{{ ansible_nas_domain }}",{% endif %}

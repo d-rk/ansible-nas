@@ -6,3 +6,5 @@ docker_apt_arch: arm64
 bitwarden_backup_docker_image: "bruceforce/bw_backup:latest-rpi3"
 
 photoprism_docker_image: photoprism/photoprism-arm64:latest
+
+gotify_docker_image: randomdwi/gotify-server-arm64:2.0.20

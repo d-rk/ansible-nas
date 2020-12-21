@@ -1,0 +1,17 @@
+---
+- name: Gotify Docker Container
+  docker_container:
+    name: gotify
+    image: "{{ gotify_docker_image }}"
+    pull: true
+    ports:
+      - "{{ gotify_port }}:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart_policy: unless-stopped
+    memory: 200m
+    labels:
+      traefik.backend: "gotify"
+      traefik.frontend.rule: "Host:{{ gotify_subdomain }}.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ gotify_available_externally }}"
+      traefik.port: "80"
