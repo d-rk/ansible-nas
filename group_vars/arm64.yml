@@ -1,0 +1,6 @@
+
+# needed by geerlingguy.docker
+docker_apt_arch: arm64
+
+# arm64 image only available under 'latest-rpi3' tag
+bitwarden_backup_docker_image: "bruceforce/bw_backup:latest-rpi3"

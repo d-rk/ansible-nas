@@ -16,3 +16,7 @@
 
 [nas]
 ansible-nas
+
+[arm64]
+## Uncomment if nas is running on arm64
+#ansible-nas
