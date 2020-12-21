@@ -209,6 +209,7 @@ acmeLogging = true
 {% if ombi_available_externally == "true" %}"{{ ombi_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if openhab_available_externally == "true" %}"{{ openhab_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if organizr_available_externally == "true" %}"{{ organizr_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
+{% if photoprism_available_externally == "true" %}"{{ photoprism_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if plex_available_externally == "true" %}"{{ plex_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if portainer_available_externally == "true" %}"{{ portainer_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if pyload_available_externally == "true" %}"{{ pyload_subdomain }}.{{ ansible_nas_domain }}",{% endif %}

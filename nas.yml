@@ -251,3 +251,7 @@
   - import_tasks: tasks/pytivo.yml
     when: (pytivo_enabled | default(False))
     tags: pytivo
+
+  - import_tasks: tasks/photoprism.yml
+    when: (photoprism_enabled | default(False))
+    tags: photoprism

@@ -957,3 +957,17 @@ vd_users:
     password: "topsecret"
     sudo: "Y"
 vd_rdp_port: 3389
+
+
+###
+### PhotoPrism
+###
+photoprism_docker_image: photoprism/photoprism:latest
+photoprism_available_externally: "false"
+photoprism_subdomain: "photoprism"
+photoprism_config_directory: "{{ docker_home }}/photoprism/config"
+photoprism_photos_directory: "{{ photos_root }}"
+photoprism_password: "secret"
+photoprism_settings_hidden: "false"
+photoprism_public: "false"
+photoprism_port: 2342

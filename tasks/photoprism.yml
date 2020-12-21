@@ -1,0 +1,77 @@
+- name: Create PhotoPrism Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    # mode: 0755
+  with_items:
+    - "{{ photoprism_config_directory }}"
+
+- name: PhotoPrism MariaDB Docker Container
+  docker_container:
+    name: photoprism-mariadb
+    image: mariadb:10.5.8-focal
+    pull: true
+    command: mysqld --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=50
+    volumes:
+      - "{{ photoprism_config_directory }}/mariadb:/var/lib/mysql:rw"
+    env:
+      MYSQL_DATABASE: "photoprism"
+      MYSQL_USER: "photoprism-user"
+      MYSQL_PASSWORD: "photoprism-pass"
+      MYSQL_ROOT_PASSWORD: "photoprism-secret"
+    restart_policy: unless-stopped
+    memory: 1g
+
+- name: PhotoPrism Docker Container
+  docker_container:
+    name: photoprism
+    image: "{{ photoprism_docker_image }}"
+    pull: true
+    links:
+    - photoprism-mariadb:mariadb
+    ports:
+      - "{{ photoprism_port }}:2342"    
+    volumes:
+      # Storage folder for settings, index & sidecar files (DON'T REMOVE):
+      - "{{ photoprism_config_directory }}:/photoprism/storage:rw"
+      # Your personal photo and video collection ([local path]:[container path]):
+      - "{{ photoprism_photos_directory }}:/photoprism/originals"
+    env:
+      PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism_password }}" # Initial admin password: PLEASE CHANGE!
+      PHOTOPRISM_DEBUG: "false"                              # Run in debug mode (shows additional log messages)
+      PHOTOPRISM_PUBLIC: "{{ photoprism_public }}"           # No authentication required (disables password protection)
+      PHOTOPRISM_READONLY: "false"                           # Don't modify originals directory (reduced functionality)
+      PHOTOPRISM_UPLOAD_NSFW: "true"                         # Allow uploads that MAY be offensive
+      PHOTOPRISM_DETECT_NSFW: "false"                        # Flag photos as private that MAY be offensive
+      PHOTOPRISM_EXPERIMENTAL: "false"                       # Enable experimental features
+      PHOTOPRISM_SITE_URL: "https://{{ photoprism_subdomain }}.{{ ansible_nas_domain }}"  # Canonical / public site URL
+      PHOTOPRISM_SITE_TITLE: "PhotoPrism"
+      PHOTOPRISM_SITE_CAPTION: "Browse Your Life"
+      PHOTOPRISM_SITE_DESCRIPTION: ""
+      PHOTOPRISM_SITE_AUTHOR: ""
+      PHOTOPRISM_HTTP_HOST: "0.0.0.0"
+      PHOTOPRISM_HTTP_PORT: "2342"
+      PHOTOPRISM_SETTINGS_HIDDEN: "{{ photoprism_settings_hidden }}" # Users can not view or change settings
+      PHOTOPRISM_DATABASE_DRIVER: "mysql"            # Use MariaDB (or MySQL) instead of SQLite for improved performance
+      PHOTOPRISM_DATABASE_DSN: "photoprism-user:photoprism-pass@tcp(mariadb:3306)/photoprism?charset=utf8mb4,utf8&parseTime=true"
+      PHOTOPRISM_SIDECAR_JSON: "true"                # Automatically create JSON sidecar files using Exiftool
+      PHOTOPRISM_SIDECAR_YAML: "true"                # Automatically backup metadata to YAML sidecar files
+      PHOTOPRISM_THUMB_FILTER: "lanczos"             # Resample filter, best to worst: blackman, lanczos, cubic, linear
+      PHOTOPRISM_THUMB_UNCACHED: "false"             # Enable on-demand thumbnail rendering (high memory and cpu usage)
+      PHOTOPRISM_THUMB_SIZE: "2048"                  # Pre-rendered thumbnail size limit (default 2048, min 720, max 7680)
+      # PHOTOPRISM_THUMB_SIZE: 4096                  # Retina 4K, DCI 4K (requires more storage); 7680 for 8K Ultra HD
+      PHOTOPRISM_THUMB_SIZE_UNCACHED: "7680"         # On-demand rendering size limit (default 7680, min 720, max 7680)
+      PHOTOPRISM_JPEG_SIZE: "7680"                   # Size limit for converted image files in pixels (720-30000)
+      PHOTOPRISM_JPEG_QUALITY: "92"                  # Set to 95 for high-quality thumbnails (25-100)
+      PHOTOPRISM_DARKTABLE_PRESETS: "false"          # Use darktable presets (disables concurrent raw to jpeg conversion)
+      # You may optionally set user, group and/or file permissions using environment variables:
+      # UID: 1000
+      # GID: 1000
+      # UMASK: 0000
+    restart_policy: unless-stopped
+    memory: 2g
+    labels:
+      traefik.backend: "photoprism"
+      traefik.frontend.rule: "Host:{{ photoprism_subdomain }}.{{ ansible_nas_domain }}"
+      traefik.enable: "{{ photoprism_available_externally }}"
+      traefik.port: "2342"
