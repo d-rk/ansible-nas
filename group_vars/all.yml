@@ -150,6 +150,9 @@ docker_home: /mnt/Volume2/docker
 # You might want to change this to ZFS, depending on your underlying filesystem.
 docker_storage_driver: overlay2
 
+# add config root folder
+config_root: "{{ docker_home }}"
+
 ###
 ### Samba
 ###
