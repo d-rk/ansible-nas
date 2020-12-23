@@ -213,7 +213,7 @@ acmeLogging = true
 {% if photoprism_available_externally == "true" %}"{{ photoprism_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if plex_available_externally == "true" %}"{{ plex_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if portainer_available_externally == "true" %}"{{ portainer_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
-{% if pyhole_available_externally == "true" %}"{{ pyhole_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
+{% if pihole_available_externally == "true" %}"{{ pihole_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if pyload_available_externally == "true" %}"{{ pyload_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if pytivo_available_externally == "true" %}"{{ pytivo_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
 {% if radarr_available_externally == "true" %}"{{ radarr_subdomain }}.{{ ansible_nas_domain }}",{% endif %}
