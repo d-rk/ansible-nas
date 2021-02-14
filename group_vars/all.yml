@@ -436,8 +436,8 @@ pyload_available_externally: "false"
 pyload_subdomain: "pyload"
 pyload_config_directory: "{{ docker_home }}/pyload"
 pyload_download_directory: "{{ downloads_root }}"
-pyload_user_id: "0"
-pyload_group_id: "0"
+pyload_user_id: "{{ ansible_nas_user_id }}"
+pyload_group_id: "{{ ansible_nas_group_id }}"
 pyload_port: "8000"
 
 ###
@@ -493,6 +493,7 @@ homebridge_port: "8087"
 # If you're paranoid, set permissions to "ro" so Emby won't ever be able to
 # delete your files
 emby_available_externally: "false"
+emby_docker_image: emby/embyserver
 emby_subdomain: "emby"
 emby_config_directory: "{{ docker_home }}/emby/config"
 emby_movies_directory: "{{ movies_root }}"

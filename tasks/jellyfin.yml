@@ -19,6 +19,12 @@
     ports:
       - "{{ jellyfin_port_http }}:8096"
       - "{{ jellyfin_port_https }}:8920"
+    groups:
+      - 109
+    devices:
+      # VAAPI Devices
+      - "/dev/dri/renderD128:/dev/dri/renderD128"
+      - "/dev/dri/card0:/dev/dri/card0"
     env:
       TZ: "{{ ansible_nas_timezone }}"
       PUID: "{{ jellyfin_user_id }}"

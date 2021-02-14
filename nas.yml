@@ -3,7 +3,7 @@
 
   pre_tasks:
     - import_tasks: tasks/users.yml
-      tags: users
+      tags: always
 
   roles:
     - role: bertvv.samba

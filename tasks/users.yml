@@ -3,6 +3,11 @@
   group:
     name: ansible-nas
     state: present
+  register: g_result
+
+- name: remember group id
+  set_fact:
+    ansible_nas_group_id: "{{ g_result.gid }}"
 
 - name: Create ansible-nas user
   user:
@@ -13,3 +18,8 @@
     create_home: no
     group: ansible-nas
     shell: /usr/sbin/nologin
+  register: u_result
+
+- name: remember user id
+  set_fact:
+    ansible_nas_user_id: "{{ u_result.uid }}"
