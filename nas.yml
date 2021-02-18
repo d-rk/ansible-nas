@@ -152,9 +152,9 @@
     when: (airsonic_enabled | default(False))
     tags: airsonic
 
-  - import_tasks: tasks/cloudflare_ddns.yml
-    when: (cloudflare_ddns_enabled | default(False))
-    tags: cloudflare_ddns
+  - import_tasks: tasks/ddns.yml
+    when: (ddns_enabled | default(False))
+    tags: ddns
 
   - import_tasks: tasks/minidlna.yml
     when: (minidlna_enabled | default(False))

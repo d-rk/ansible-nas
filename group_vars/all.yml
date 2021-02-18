@@ -58,7 +58,7 @@ stats_enabled: false
 guacamole_enabled: false
 netdata_enabled: false
 watchtower_enabled: false
-cloudflare_ddns_enabled: false
+ddns_enabled: false
 cloudcmd_enabled: false
 virtual_desktop_enabled: false
 krusader_enabled: false
@@ -305,6 +305,10 @@ cloudflare_email: "{{ ansible_nas_email }}"
 
 # Cloudflare 'Global API Key', can be found on the 'My Profile' page
 cloudflare_api_key: abcdeabcdeabcdeabcde1234512345
+
+ddns_data_directory: "{{ docker_home }}/ddns"
+
+ddns_port: "8202"
 
 ###
 ### General
