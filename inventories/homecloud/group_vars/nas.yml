@@ -79,3 +79,17 @@ jellyfin_enabled: true
 jellyfin_available_externally: "true"
 jellyfin_subdomain: "videos"
 jellyfin_config_directory: "{{ config_root }}/jellyfin"
+
+youtubedlmaterial_enabled: true
+
+ddns_enabled: true
+ddns_config:
+  settings:
+    - provider: "namecheap"
+      domain: "wilden.cc"
+      host: "@"
+      password: "a3571f8b83aa4edd833338acb645c72b"
+    - provider: "namecheap"
+      domain: "wilden.cc"
+      host: "*"
+      password: "a3571f8b83aa4edd833338acb645c72b"
